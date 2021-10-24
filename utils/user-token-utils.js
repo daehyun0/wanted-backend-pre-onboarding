@@ -1,12 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const jsonwebtoken = require('jsonwebtoken');
-const secretKey = fs.readFileSync(path.resolve(__dirname, '../env/private_key'));
+const secretKey = fs.readFileSync(path.resolve(__dirname, '../env/private_key')).toString();
 
 module.exports = {
     getAccessToken: function (payload) {
         return new Promise((resolve, reject) => {
-            jsonwebtoken.sign(payload, secretKey, {}, function (err, token) {
+            jsonwebtoken.sign(payload, secretKey, {
+                expiresIn: '7d',
+                subject: 'userInfo'
+            }, function (err, token) {
                 if (err) {
                     reject(err);
                     return;
