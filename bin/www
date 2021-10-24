@@ -7,8 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('precourse:server');
 var http = require('http');
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
 
 /**
  * Get port from environment and store in Express.
