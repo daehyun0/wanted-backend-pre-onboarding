@@ -1,6 +1,7 @@
 let user = require('../model/user')
 const AuthenticationError = require("../error/authentication-error");
 const AuthenticationErrorCode = require("../error/authentication-error-code");
+const userTokenUtils = require('../utils/user-token-utils');
 const bcrypt = require("bcrypt");
 
 const userService = {
@@ -21,7 +22,9 @@ const userService = {
             throw new AuthenticationError(AuthenticationErrorCode.WRONG_PASSWORD);
         }
 
-        return true;
+        return await userTokenUtils.getAccessToken({
+            userPk: users[0].pk
+        })
     }
 }
 

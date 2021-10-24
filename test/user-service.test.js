@@ -19,5 +19,5 @@ test('authenticate_password가 맞지 않으면 error', async () => {
 test('authenticate_성공', async () => {
     await mock();
     const result = await userService.authenticate('jane1', '1234')
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
 });
