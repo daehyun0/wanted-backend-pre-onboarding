@@ -8,7 +8,7 @@ const Article = sequelize.define('Article', {
         primaryKey: true,
         autoIncrement: true,
     },
-    userPK: {
+    userPk: {
         type: DataTypes.BIGINT,
         allowNull: false,
     },
@@ -21,11 +21,11 @@ const Article = sequelize.define('Article', {
         allowNull: false
     },
     createdAt: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false
     },
     updatedAt: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false
     },
 }, {

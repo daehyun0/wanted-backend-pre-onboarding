@@ -21,6 +21,11 @@ app.set('port', port);
 require('../utils/sequelize.js');
 
 /**
+ * Mock DB
+ */
+require('../utils/mock-db.js');
+
+/**
  * Create HTTP server.
  */
 var server = http.createServer(app);
