@@ -1,16 +1,21 @@
 let user = require('../model/user');
 let article = require('../model/article');
+const passwordUtils = require("./password-utils");
 
 module.exports = async function () {
     user = await user;
     article = await article;
 
+    user.sync({force: true});
+    article.sync({force: true});
+
     const userCreatePromises = [];
+    const password = await passwordUtils.hash('1234');
     for (let i = 0; i < 100; ++i) {
         const userPromise = user.create({
             nickname: 'jane' + i + 'nickname',
             id: 'jane' + i,
-            password: 'asdf'
+            password: password
         })
         userCreatePromises.push(userPromise);
     }

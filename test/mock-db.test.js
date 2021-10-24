@@ -1,6 +1,7 @@
 const mock = require('../utils/mock-db');
 let user = require('../model/user');
 let article = require('../model/article');
+const passwordUtils = require("../utils/password-utils");
 
 test('mock 제대로 되었는지 확인', async () => {
     user = await user;
@@ -11,12 +12,15 @@ test('mock 제대로 되었는지 확인', async () => {
     const users = await user.findAll();
     const articles = await article.findAll();
 
+
+    const expectComparePasswordResult = await passwordUtils.compare(users[0].password, '1234');
+
     // then
     expect(users.length).toEqual(100);
     for (let i = 0; i < 100; ++i) {
         expect(users[i].nickname).toEqual('jane' + i + 'nickname');
         expect(users[i].id).toEqual('jane' + i,);
-        expect(users[i].password).toEqual('asdf');
+        expect(expectComparePasswordResult).toEqual(true);
     }
 
     expect(articles.length).toEqual(19);
