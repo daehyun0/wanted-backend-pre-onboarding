@@ -1,12 +1,8 @@
 let user = null;
 
-beforeEach((done) => {
-    user = require("../model/user.js");
-    user.then(async userDao => {
-        user = userDao;
-        await user.sync({ force: true });
-        done();
-    })
+beforeEach(async () => {
+    user = await require("../model/user.js");
+    await user.sync({ force: true });
 })
 
 test('insert', async () => {
