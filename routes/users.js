@@ -1,9 +1,18 @@
 var express = require('express');
+const userService = require("../service/user-service");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.post('/', async function(req, res, next) {
+  try {
+    const id = req.body.id;
+    const password = req.body.password;
+    const token = await userService.authenticate(id, password);
+
+    res.cookie('access_token', token);
+    res.send(token);
+  } catch (e) {
+    res.send(e.message);
+  }
 });
 
 module.exports = router;

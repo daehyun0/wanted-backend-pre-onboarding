@@ -1,4 +1,6 @@
-let user = require('../model/user')
+let user = require('../model/user').then(userModel => {
+    user = userModel
+})
 const AuthenticationError = require("../error/authentication-error");
 const AuthenticationErrorCode = require("../error/authentication-error-code");
 const userTokenUtils = require('../utils/user-token-utils');
@@ -6,7 +8,6 @@ const bcrypt = require("bcrypt");
 
 const userService = {
     authenticate: async function (id, password) {
-        user = await user;
         const userFromRepo = await user.findOne({
             where: {
                 id

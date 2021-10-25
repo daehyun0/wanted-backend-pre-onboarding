@@ -27,7 +27,7 @@ const User = sequelize.define('User', {
 });
 
 const UserPromise = new Promise(async resolve => {
-    await User.sync({ force: true })
+    await User.sync({ alter: true })
     resolve(User);
 })
 
