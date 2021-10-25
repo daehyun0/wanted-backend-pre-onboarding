@@ -23,7 +23,7 @@ require('../utils/sequelize.js');
 /**
  * Mock DB
  */
-require('../utils/mock-db.js');
+require('../utils/mock-db.js')();
 
 /**
  * Create HTTP server.

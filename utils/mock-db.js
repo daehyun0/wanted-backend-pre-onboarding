@@ -1,13 +1,13 @@
-let user = require('../model/user');
-let article = require('../model/article');
 const passwordUtils = require("./password-utils");
 
 module.exports = async function () {
+    let user = require('../model/user');
+    let article = require('../model/article');
     user = await user;
     article = await article;
 
-    user.sync({force: true});
-    article.sync({force: true});
+    await user.sync({force: true});
+    await article.sync({force: true});
 
     const userCreatePromises = [];
     const password = await passwordUtils.hash('1234');
