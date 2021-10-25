@@ -3,7 +3,7 @@ const articleService = require("../service/article-service");
 const userService = require("../service/user-service");
 var router = express.Router();
 
-router.get('/', async function(req, res, next) {
+router.get('/articles', async function(req, res, next) {
     const pageNum = req.query.pageNum || 1;
     const countPerPage = req.query.count || 10;
 
@@ -31,7 +31,7 @@ router.get('/', async function(req, res, next) {
     }
 });
 
-router.get('/:id', async function (req, res) {
+router.get('/article/:id', async function (req, res) {
     const articlePk = req.params.id;
     try {
         const article = await articleService.read(articlePk)
@@ -49,7 +49,7 @@ router.get('/:id', async function (req, res) {
     }
 });
 
-router.post('/', async function (req, res) {
+router.post('/article/', async function (req, res) {
     const jwtToken = req.cookies.access_token;
     const title = req.body.title;
     const body = req.body.body;
@@ -64,7 +64,7 @@ router.post('/', async function (req, res) {
     }
 });
 
-router.patch('/:id', async function (req, res) {
+router.patch('/article/:id', async function (req, res) {
     const articlePk = req.params.id;
     const jwtToken = req.cookies.access_token;
     const title = req.body.title;
@@ -80,7 +80,7 @@ router.patch('/:id', async function (req, res) {
     }
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/article/:id', async function (req, res) {
     const articlePk = req.params.id;
     const jwtToken = req.cookies.access_token;
     try {
