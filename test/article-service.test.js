@@ -110,3 +110,36 @@ describe('update', () => {
         expect(result.updatedAt).not.toEqual(beforeArticle.updatedAt);
     });
 });
+
+describe('delete', () => {
+    test('delete 유효하지 않은 토큰인 경우 실패', async () => {
+        await expect(async () => {
+            await articleService.delete(jwtFailed, 1);
+        }).rejects.toEqual(new NotAuthenticationError(INVALID_TOKEN));
+    });
+
+    test('delete 유효기간이 지난 토큰인 경우 실패', async () => {
+        await expect(async () => {
+            await articleService.delete(jwtExpired, 1);
+        }).rejects.toEqual(new NotAuthenticationError(EXPIRED_TOKEN));
+    });
+
+    test('delete 존재하지 않는 게시물의 경우 실패', async () => {
+        await expect(async () => {
+            await articleService.delete(jwtValid, 125891828);
+        }).rejects.toEqual(new NotFoundResource(NOT_FOUND_ARTICLE));
+    });
+
+    test('delete 게시물을 쓴 계정이 아닌 경우 실패', async () => {
+        await expect(async () => {
+            await articleService.delete(jwtValid, 5);
+        }).rejects.toEqual(new AuthorizedError(NOT_MATCHED_USER));
+    });
+
+    test('delete 성공', async () => {
+        await articleService.delete(jwtValid, 2)
+        await expect(async () => {
+            await articleService.read(2);
+        }).rejects.toEqual(new NotFoundResource(NOT_FOUND_ARTICLE));
+    });
+})

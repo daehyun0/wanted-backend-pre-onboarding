@@ -104,6 +104,37 @@ const articleService = {
         await articleFromRepo.save();
 
         return ArticleDto.builder().of(articleFromRepo).build();
+    },
+
+    delete: async function (jwtToken, articlePk) {
+        let decoded = null;
+        try {
+            decoded = await userTokenUtils.verifyAccessToken(jwtToken);
+        } catch (e) {
+            if (e instanceof TokenExpiredError) {
+                throw new NotAuthenticatedError(EXPIRED_TOKEN);
+            } else {
+                throw new NotAuthenticatedError(INVALID_TOKEN);
+            }
+        }
+
+        const articles = await article.findAll({
+            where: {
+                pk: articlePk
+            }
+        });
+
+        if (articles.length === 0) {
+            throw new NotFoundResourceError(NOT_FOUND_ARTICLE);
+        }
+
+        const articleFromRepo = articles[0];
+
+        if (decoded.userPk !== articleFromRepo.userPk) {
+            throw new AuthorizedError(NOT_MATCHED_USER);
+        }
+
+        await articleFromRepo.destroy();
     }
 }
 
