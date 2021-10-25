@@ -1,6 +1,14 @@
 class BaseError extends Error {
-    constructor(message) {
+    #status
+
+    constructor(status, message) {
         super(message);
+        this.#status = status;
+        this._status = status;
+    }
+
+    get status() {
+        return this._status;
     }
 }
 

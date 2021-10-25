@@ -26,7 +26,8 @@ router.get('/', async function(req, res, next) {
         }
         res.send(responseArticleList);
     } catch (e) {
-        res.send(e.message)
+        res.status(e.status);
+        res.send(e.message);
     }
 });
 
@@ -43,6 +44,7 @@ router.get('/:id', async function (req, res) {
             createdAt: article.createdAt
         });
     } catch (e) {
+        res.status(e.status);
         res.send(e.message);
     }
 });
@@ -57,6 +59,7 @@ router.post('/', async function (req, res) {
             articlePk: article.pk
         });
     } catch (e) {
+        res.status(e.status);
         res.send(e.message);
     }
 });
@@ -72,6 +75,7 @@ router.patch('/:id', async function (req, res) {
             articlePk: article.pk
         });
     } catch (e) {
+        res.status(e.status);
         res.send(e.message);
     }
 });
@@ -84,7 +88,7 @@ router.delete('/:id', async function (req, res) {
         res.status(204);
         res.send();
     } catch (e) {
-        res.status()
+        res.status(e.status);
         res.send(e.message);
     }
 });

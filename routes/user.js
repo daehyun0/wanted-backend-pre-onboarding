@@ -11,6 +11,7 @@ router.post('/login', async function(req, res, next) {
     res.cookie('access_token', token);
     res.send(token);
   } catch (e) {
+    res.status(e.status);
     res.send(e.message);
   }
 });
