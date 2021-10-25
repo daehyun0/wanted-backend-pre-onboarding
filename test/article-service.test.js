@@ -143,3 +143,18 @@ describe('delete', () => {
         }).rejects.toEqual(new NotFoundResource(NOT_FOUND_ARTICLE));
     });
 })
+
+describe('read-list', function () {
+    test('read-list pagination되어 반환', async () => {
+        const pageNum1 = 1;
+        const pageNum2 = 2;
+        const articlePerPage = 10;
+        const articleList1 = await articleService.readList(pageNum1, articlePerPage);
+        const articleList2 = await articleService.readList(pageNum2, articlePerPage);
+
+        expect(articleList1.length).toEqual(articlePerPage);
+        expect(articleList2.length).toEqual(9);
+        expect(articleList1[0].title).toEqual('title19');
+        expect(articleList2[0].title).toEqual('title9');
+    });
+});

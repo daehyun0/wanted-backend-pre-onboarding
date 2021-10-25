@@ -135,6 +135,16 @@ const articleService = {
         }
 
         await articleFromRepo.destroy();
+    },
+
+    readList: async function (pageNum, countPerPage) {
+        const articleList = await article.findAll({
+            offset: (pageNum - 1) * countPerPage,
+            limit: countPerPage,
+            order: [['pk', 'DESC']]
+        })
+
+        return articleList.map(articleModel => ArticleDto.builder().of(articleModel).build());
     }
 }
 
