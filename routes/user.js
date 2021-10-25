@@ -20,6 +20,7 @@ router.post('/login', async function(req, res, next) {
 
 router.post('/logout', async function(req, res) {
   res.cookie('access_token', '');
+  res.status(204);
   res.send();
 })
 
