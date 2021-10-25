@@ -9,7 +9,9 @@ router.post('/login', async function(req, res, next) {
     const token = await userService.authenticate(id, password);
 
     res.cookie('access_token', token);
-    res.send(token);
+    res.send({
+      accessToken: token
+    });
   } catch (e) {
     res.status(e.status);
     res.send(e.message);
