@@ -17,7 +17,7 @@ router.post('/login', async function(req, res, next) {
 });
 
 router.post('/logout', async function(req, res) {
-  res.cookie('access_token', null);
+  res.cookie('access_token', '');
   res.send();
 })
 
