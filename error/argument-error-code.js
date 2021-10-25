@@ -1,4 +1,6 @@
 module.exports = {
     NO_TITLE: 'NO_TITLE',
-    NO_BODY: 'NO_BODY'
+    NO_BODY: 'NO_BODY',
+    INVALID_TOKEN: 'INVALID_TOKEN',
+    EXPIRED_TOKEN: 'EXPIRED_TOKEN'
 }

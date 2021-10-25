@@ -1,9 +1,8 @@
 const articleService = require("../service/article-service");
-const NotAuthenticationError = require("../error/not-authentication-error");
+const AuthenticationError = require("../error/authentication-error");
 const mock = require('../utils/mock-db');
 const ArgumentError = require("../error/argument-error");
-const {NO_TITLE, NO_BODY} = require("../error/argument-error-code");
-const {INVALID_TOKEN, EXPIRED_TOKEN} = require("../error/not-authenticated-error-code");
+const {NO_TITLE, NO_BODY, INVALID_TOKEN, EXPIRED_TOKEN} = require("../error/argument-error-code");
 const NotFoundResource = require("../error/not-found-resource-error");
 const {NOT_FOUND_ARTICLE} = require("../error/not-found-resource-error-code");
 const ArticleDto = require("../dto/article");
@@ -22,13 +21,13 @@ describe('write', () => {
     test('write 로그인 안되있으면 실패', async () => {
         await expect(async () => {
             await articleService.write(jwtFailed, 'a', 'b');
-        }).rejects.toEqual(new NotAuthenticationError(INVALID_TOKEN));
+        }).rejects.toEqual(new AuthenticationError(INVALID_TOKEN));
     });
 
     test('write 로그인은 되어있으나 유효기간이 지나있으면 실패', async () => {
         await expect(async () => {
             await articleService.write(jwtExpired, 'a', 'b');
-        }).rejects.toEqual(new NotAuthenticationError(EXPIRED_TOKEN));
+        }).rejects.toEqual(new AuthenticationError(EXPIRED_TOKEN));
     });
 
     test('write 제목 없으면 실패', async () => {
@@ -66,13 +65,13 @@ describe('update', () => {
     test('update 유효하지 않은 토큰인 경우 실패', async () => {
         await expect(async () => {
             await articleService.update(jwtFailed, 1, 'title_updated', 'body_updated');
-        }).rejects.toEqual(new NotAuthenticationError(INVALID_TOKEN));
+        }).rejects.toEqual(new AuthenticationError(INVALID_TOKEN));
     });
 
     test('update 유효기간이 지난 토큰인 경우 실패', async () => {
         await expect(async () => {
             await articleService.update(jwtExpired, 1, 'title_updated', 'body_updated');
-        }).rejects.toEqual(new NotAuthenticationError(EXPIRED_TOKEN));
+        }).rejects.toEqual(new AuthenticationError(EXPIRED_TOKEN));
     });
 
     test('update 존재하지 않는 게시물의 경우 실패', async () => {
@@ -115,13 +114,13 @@ describe('delete', () => {
     test('delete 유효하지 않은 토큰인 경우 실패', async () => {
         await expect(async () => {
             await articleService.delete(jwtFailed, 1);
-        }).rejects.toEqual(new NotAuthenticationError(INVALID_TOKEN));
+        }).rejects.toEqual(new AuthenticationError(INVALID_TOKEN));
     });
 
     test('delete 유효기간이 지난 토큰인 경우 실패', async () => {
         await expect(async () => {
             await articleService.delete(jwtExpired, 1);
-        }).rejects.toEqual(new NotAuthenticationError(EXPIRED_TOKEN));
+        }).rejects.toEqual(new AuthenticationError(EXPIRED_TOKEN));
     });
 
     test('delete 존재하지 않는 게시물의 경우 실패', async () => {

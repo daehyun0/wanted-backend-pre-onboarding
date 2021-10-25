@@ -1,6 +1,5 @@
-const NotAuthenticatedError = require("../error/not-authentication-error");
-const {NO_TITLE, NO_BODY} = require("../error/argument-error-code");
-const {INVALID_TOKEN, EXPIRED_TOKEN} = require('../error/not-authenticated-error-code')
+const AuthenticationError = require("../error/authentication-error");
+const {NO_TITLE, NO_BODY, EXPIRED_TOKEN, INVALID_TOKEN} = require("../error/argument-error-code");
 const ArgumentError = require("../error/argument-error");
 const userTokenUtils = require("../utils/user-token-utils");
 const {TokenExpiredError} = require("jsonwebtoken");
@@ -20,9 +19,9 @@ const articleService = {
             decoded = await userTokenUtils.verifyAccessToken(jwtToken);
         } catch (e) {
             if (e instanceof TokenExpiredError) {
-                throw new NotAuthenticatedError(EXPIRED_TOKEN);
+                throw new AuthenticationError(EXPIRED_TOKEN);
             } else {
-                throw new NotAuthenticatedError(INVALID_TOKEN);
+                throw new AuthenticationError(INVALID_TOKEN);
             }
         }
 
@@ -68,9 +67,9 @@ const articleService = {
             decoded = await userTokenUtils.verifyAccessToken(jwtToken)
         } catch (e) {
             if (e instanceof TokenExpiredError) {
-                throw new NotAuthenticatedError(EXPIRED_TOKEN);
+                throw new AuthenticationError(EXPIRED_TOKEN);
             } else {
-                throw new NotAuthenticatedError(INVALID_TOKEN);
+                throw new AuthenticationError(INVALID_TOKEN);
             }
         }
 
@@ -110,9 +109,9 @@ const articleService = {
             decoded = await userTokenUtils.verifyAccessToken(jwtToken);
         } catch (e) {
             if (e instanceof TokenExpiredError) {
-                throw new NotAuthenticatedError(EXPIRED_TOKEN);
+                throw new AuthenticationError(EXPIRED_TOKEN);
             } else {
-                throw new NotAuthenticatedError(INVALID_TOKEN);
+                throw new AuthenticationError(INVALID_TOKEN);
             }
         }
 

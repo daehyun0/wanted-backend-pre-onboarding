@@ -1,7 +1,6 @@
 var express = require('express');
 const articleService = require("../service/article-service");
 const userService = require("../service/user-service");
-const NotAuthenticatedError = require("../error/not-authentication-error");
 var router = express.Router();
 
 router.get('/', async function(req, res, next) {
