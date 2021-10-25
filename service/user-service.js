@@ -3,6 +3,8 @@ const AuthenticationError = require("../error/authentication-error");
 const AuthenticationErrorCode = require("../error/authentication-error-code");
 const userTokenUtils = require('../utils/user-token-utils');
 const bcrypt = require("bcrypt");
+const NotFoundResourceError = require("../error/not-found-resource-error");
+const {NOT_FOUND_USER} = require('../error/not-found-resource-error-code');
 
 const userService = {
     authenticate: async function (id, password) {
@@ -27,16 +29,16 @@ const userService = {
         })
     },
 
-    async findById(id) {
+    async findByPk(pk) {
         user = await user;
         const userFromRepo = await user.findOne({
             where: {
-                id
+                pk
             }
         });
 
         if (userFromRepo === null) {
-            throw new AuthenticationError(AuthenticationErrorCode.NOT_FOUND_ID);
+            throw new NotFoundResourceError(NOT_FOUND_USER);
         }
 
         return userFromRepo;

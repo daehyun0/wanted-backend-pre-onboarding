@@ -3,6 +3,7 @@ const AuthenticationError = require("../error/authentication-error");
 const {NOT_FOUND_ID, WRONG_PASSWORD} = require("../error/authentication-error-code");
 const mock = require('../utils/mock-db');
 const NotFoundResource = require("../error/not-found-resource-error");
+const {NOT_FOUND_USER} = require("../error/not-found-resource-error-code");
 
 test('authenticate_id가 맞지 않으면 error', async () => {
     await expect(async () => {
@@ -28,15 +29,15 @@ describe('userPk로 user획득', () => {
         await mock();
         const id = 55000
         await expect(async () => {
-            await userService.findById(id);
-        }).rejects.toEqual(new NotFoundResource(NOT_FOUND_ID));
+            await userService.findByPk(id);
+        }).rejects.toEqual(new NotFoundResource(NOT_FOUND_USER));
     });
 
     test('유저가 존재하면 성공', async () => {
         await mock();
-        const id = 'jane1'
-        const user = await userService.findById(id);
+        const pk = 2;
+        const user = await userService.findByPk(pk);
         expect(user).toBeTruthy();
-        expect(user.id).toEqual('jane1')
+        expect(user.id).toEqual('jane1');
     });
 });
