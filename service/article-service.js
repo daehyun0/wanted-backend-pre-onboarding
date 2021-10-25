@@ -49,17 +49,17 @@ const articleService = {
     },
 
     read: async function (articlePk) {
-        const articles = await article.findAll({
+        const articleFromRepo = await article.findOne({
             where: {
                 pk: articlePk
             }
         });
 
-        if (articles.length === 0) {
+        if (articleFromRepo === null) {
             throw new NotFoundResourceError(NOT_FOUND_ARTICLE);
         }
 
-        return ArticleDto.builder().of(articles[0]).build();
+        return ArticleDto.builder().of(articleFromRepo).build();
     },
 
     update: async function (jwtToken, articlePk, title, body) {
@@ -74,17 +74,15 @@ const articleService = {
             }
         }
 
-        const articles = await article.findAll({
+        const articleFromRepo = await article.findOne({
             where: {
                 pk: articlePk
             }
         });
 
-        if (articles.length === 0) {
+        if (articleFromRepo === null) {
             throw new NotFoundResourceError(NOT_FOUND_ARTICLE);
         }
-
-        const articleFromRepo = articles[0];
 
         if (decoded.userPk !== articleFromRepo.userPk) {
             throw new AuthorizedError(NOT_MATCHED_USER);
@@ -118,17 +116,15 @@ const articleService = {
             }
         }
 
-        const articles = await article.findAll({
+        const articleFromRepo = await article.findOne({
             where: {
                 pk: articlePk
             }
         });
 
-        if (articles.length === 0) {
+        if (articleFromRepo === null) {
             throw new NotFoundResourceError(NOT_FOUND_ARTICLE);
         }
-
-        const articleFromRepo = articles[0];
 
         if (decoded.userPk !== articleFromRepo.userPk) {
             throw new AuthorizedError(NOT_MATCHED_USER);

@@ -7,23 +7,23 @@ const bcrypt = require("bcrypt");
 const userService = {
     authenticate: async function (id, password) {
         user = await user;
-        const users = await user.findAll({
+        const userFromRepo = await user.findOne({
             where: {
                 id
             }
         });
 
-        if (users.length === 0) {
+        if (userFromRepo === null) {
             throw new AuthenticationError(AuthenticationErrorCode.NOT_FOUND_ID);
         }
 
-        const passwordCompareResult = await bcrypt.compare(password, users[0].password)
+        const passwordCompareResult = await bcrypt.compare(password, userFromRepo.password)
         if (!passwordCompareResult) {
             throw new AuthenticationError(AuthenticationErrorCode.WRONG_PASSWORD);
         }
 
         return await userTokenUtils.getAccessToken({
-            userPk: users[0].pk
+            userPk: userFromRepo.pk
         })
     }
 }
