@@ -4,6 +4,9 @@ const mock = require('../utils/mock-db');
 const ArgumentError = require("../error/argument-error");
 const {NO_TITLE, NO_BODY} = require("../error/argument-error-code");
 const {INVALID_TOKEN, EXPIRED_TOKEN} = require("../error/not-authenticated-error-code");
+const NotFoundResource = require("../error/not-found-error-resource");
+const {NOT_FOUND_ARTICLE} = require("../error/not-found-error-resource-code");
+const ArticleDto = require("../dto/article");
 
 const jwtNotExpiredVerified = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUGsiOjIsImlhdCI6MTYzNTEwNTU4MSwiZXhwIjozMzE5MjcwNTU4MSwic3ViIjoidXNlckluZm8ifQ.qvrojqGcxdy21BvR-JyJtpSUcJKlSNVPcHpQ9BXWt6I';
 const jwtExpired = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUGsiOjIsImlhdCI6MTYzNTEwNTI3NiwiZXhwIjoxNjM1MTA1Mjc2LCJzdWIiOiJ1c2VySW5mbyJ9.Pw3HJW05kpnl-Zy_rl900hM9GJ8sCUuQkyyBg2crPNg';
@@ -38,6 +41,17 @@ test('write 내용 없으면 실패', async () => {
 });
 
 test('write 성공', async () => {
-    const articlePk = await articleService.write(jwtNotExpiredVerified, 'a', 'b');
-    expect(articlePk).toBeGreaterThan(0);
+    const result = await articleService.write(jwtNotExpiredVerified, 'a', 'b');
+    expect(result).toBeInstanceOf(ArticleDto);
 });
+
+test('read one 게시물 없다면 실패', async () => {
+    await expect(async () => {
+        await articleService.read(1023120232);
+    }).rejects.toEqual(new NotFoundResource(NOT_FOUND_ARTICLE));
+})
+
+test('read one 성공', async () => {
+    const result = await articleService.read(5);
+    expect(result).toBeInstanceOf(ArticleDto);
+})

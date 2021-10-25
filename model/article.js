@@ -33,7 +33,7 @@ const Article = sequelize.define('Article', {
 });
 
 const ArticlePromise = new Promise(async resolve => {
-    await Article.sync({ force: true })
+    await Article.sync({ alter: true })
     resolve(Article);
 })
 
