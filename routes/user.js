@@ -2,7 +2,7 @@ var express = require('express');
 const userService = require("../service/user-service");
 var router = express.Router();
 
-router.post('/', async function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   try {
     const id = req.body.id;
     const password = req.body.password;
