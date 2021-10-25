@@ -50,7 +50,9 @@ router.get('/article/:id', async function (req, res) {
 });
 
 router.post('/article/', async function (req, res) {
-    const jwtToken = req.cookies.access_token;
+    const authorizationMethodIsValid = req.headers.authorization.split(' ')[0];
+    const authorizationToken = req.headers.authorization.split(' ')[1];
+    const jwtToken = req.cookies.access_token || (authorizationMethodIsValid && authorizationToken);
     const title = req.body.title;
     const body = req.body.body;
     try {
@@ -66,7 +68,9 @@ router.post('/article/', async function (req, res) {
 
 router.patch('/article/:id', async function (req, res) {
     const articlePk = req.params.id;
-    const jwtToken = req.cookies.access_token;
+    const authorizationMethodIsValid = req.headers.authorization.split(' ')[0];
+    const authorizationToken = req.headers.authorization.split(' ')[1];
+    const jwtToken = req.cookies.access_token || (authorizationMethodIsValid && authorizationToken);
     const title = req.body.title;
     const body = req.body.body;
     try {
@@ -82,7 +86,9 @@ router.patch('/article/:id', async function (req, res) {
 
 router.delete('/article/:id', async function (req, res) {
     const articlePk = req.params.id;
-    const jwtToken = req.cookies.access_token;
+    const authorizationMethodIsValid = req.headers.authorization.split(' ')[0];
+    const authorizationToken = req.headers.authorization.split(' ')[1];
+    const jwtToken = req.cookies.access_token || (authorizationMethodIsValid && authorizationToken);
     try {
         await articleService.delete(jwtToken, articlePk);
         res.status(204);
