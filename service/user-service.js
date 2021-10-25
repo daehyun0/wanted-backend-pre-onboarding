@@ -29,7 +29,7 @@ const userService = {
         })
     },
 
-    async findByPk(pk) {
+    findByPk: async function(pk) {
         user = await user;
         const userFromRepo = await user.findOne({
             where: {
