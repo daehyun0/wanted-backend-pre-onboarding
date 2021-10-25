@@ -1,6 +1,4 @@
-let user = require('../model/user').then(userModel => {
-    user = userModel
-})
+let user = require('../model/user')
 const AuthenticationError = require("../error/authentication-error");
 const AuthenticationErrorCode = require("../error/authentication-error-code");
 const userTokenUtils = require('../utils/user-token-utils');
@@ -8,6 +6,7 @@ const bcrypt = require("bcrypt");
 
 const userService = {
     authenticate: async function (id, password) {
+        user = await user;
         const userFromRepo = await user.findOne({
             where: {
                 id
@@ -26,6 +25,21 @@ const userService = {
         return await userTokenUtils.getAccessToken({
             userPk: userFromRepo.pk
         })
+    },
+
+    async findById(id) {
+        user = await user;
+        const userFromRepo = await user.findOne({
+            where: {
+                id
+            }
+        });
+
+        if (userFromRepo === null) {
+            throw new AuthenticationError(AuthenticationErrorCode.NOT_FOUND_ID);
+        }
+
+        return userFromRepo;
     }
 }
 
