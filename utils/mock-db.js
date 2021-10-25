@@ -26,7 +26,7 @@ module.exports = async function () {
         const createdAt = new Date();
         const updatedAt = new Date();
         const articleCreatePromise = article.create({
-            userPk: i * 5,
+            userPk: i,
             title: 'title' + i,
             body: 'body' + i,
             createdAt: createdAt.setDate(createdAt.getDate() - i),

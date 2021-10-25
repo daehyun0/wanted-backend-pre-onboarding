@@ -25,7 +25,7 @@ test('mock 제대로 되었는지 확인', async () => {
 
     expect(articles.length).toEqual(19);
     for (let i = 1; i < 20; ++i) {
-        expect(articles[i - 1].userPk).toEqual(i * 5);
+        expect(articles[i - 1].userPk).toEqual(i);
         expect(articles[i - 1].title).toEqual('title' + i);
         expect(articles[i - 1].body).toEqual('body' + i);
     }
