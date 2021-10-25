@@ -1,11 +1,22 @@
 var express = require('express');
+var router = express.Router();
+
 const articleService = require("../service/article-service");
 const userService = require("../service/user-service");
-var router = express.Router();
+
+const ArgumentError = require("../error/argument-error");
+const {BAD_PARAMETER} = require("../error/code/argument-error-code");
 
 router.get('/articles', async function(req, res, next) {
     const pageNum = req.query.pageNum || 1;
     const countPerPage = req.query.count || 10;
+
+    if (pageNum < 1 || countPerPage < 1) {
+        const error = new ArgumentError(BAD_PARAMETER);
+        res.status(error.status);
+        res.send(error.message);
+        return;
+    }
 
     try {
         const articlesList = await articleService.readList(pageNum, countPerPage);
