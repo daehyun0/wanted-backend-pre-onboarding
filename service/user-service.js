@@ -1,8 +1,9 @@
 let user = require('../model/user')
+const userTokenUtils = require('../utils/user-token-utils');
+const passwordUtils = require("../utils/password-utils");
+
 const AuthenticationError = require("../error/authentication-error");
 const AuthenticationErrorCode = require("../error/code/authentication-error-code");
-const userTokenUtils = require('../utils/user-token-utils');
-const bcrypt = require("bcrypt");
 const NotFoundResourceError = require("../error/not-found-resource-error");
 const {NOT_FOUND_USER} = require('../error/code/not-found-resource-error-code');
 
@@ -19,7 +20,7 @@ const userService = {
             throw new AuthenticationError(AuthenticationErrorCode.NOT_FOUND_ID);
         }
 
-        const passwordCompareResult = await bcrypt.compare(password, userFromRepo.password)
+        const passwordCompareResult = await passwordUtils.compare(password, userFromRepo.password)
         if (!passwordCompareResult) {
             throw new AuthenticationError(AuthenticationErrorCode.WRONG_PASSWORD);
         }

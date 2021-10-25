@@ -1,16 +1,17 @@
-const AuthenticationError = require("../error/authentication-error");
-const {NO_TITLE, NO_BODY, EXPIRED_TOKEN, INVALID_TOKEN} = require("../error/code/argument-error-code");
-const ArgumentError = require("../error/argument-error");
-const userTokenUtils = require("../utils/user-token-utils");
-const {TokenExpiredError} = require("jsonwebtoken");
-const NotFoundResourceError = require("../error/not-found-resource-error");
-const {NOT_FOUND_ARTICLE} = require("../error/code/not-found-resource-error-code");
-const ArticleDto = require("../dto/article");
-const AuthorizedError = require("../error/authorized-error");
-const {NOT_MATCHED_USER} = require("../error/code/authorized-error-code");
 let article = require('../model/article').then(articlePromise => {
     article = articlePromise;
 });
+const userTokenUtils = require("../utils/user-token-utils");
+const ArticleDto = require("../dto/article");
+
+const AuthenticationError = require("../error/authentication-error");
+const ArgumentError = require("../error/argument-error");
+const NotFoundResourceError = require("../error/not-found-resource-error");
+const AuthorizedError = require("../error/authorized-error");
+const {NO_TITLE, NO_BODY, EXPIRED_TOKEN, INVALID_TOKEN} = require("../error/code/argument-error-code");
+const {TokenExpiredError} = require("jsonwebtoken");
+const {NOT_FOUND_ARTICLE} = require("../error/code/not-found-resource-error-code");
+const {NOT_MATCHED_USER} = require("../error/code/authorized-error-code");
 
 const articleService = {
     write: async function (jwtToken, title, body) {
