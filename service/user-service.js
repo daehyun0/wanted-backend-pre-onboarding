@@ -1,10 +1,10 @@
 let user = require('../model/user')
 const AuthenticationError = require("../error/authentication-error");
-const AuthenticationErrorCode = require("../error/authentication-error-code");
+const AuthenticationErrorCode = require("../error/code/authentication-error-code");
 const userTokenUtils = require('../utils/user-token-utils');
 const bcrypt = require("bcrypt");
 const NotFoundResourceError = require("../error/not-found-resource-error");
-const {NOT_FOUND_USER} = require('../error/not-found-resource-error-code');
+const {NOT_FOUND_USER} = require('../error/code/not-found-resource-error-code');
 
 const userService = {
     authenticate: async function (id, password) {

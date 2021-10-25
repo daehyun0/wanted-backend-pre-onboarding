@@ -2,12 +2,12 @@ const articleService = require("../service/article-service");
 const AuthenticationError = require("../error/authentication-error");
 const mock = require('../utils/mock-db');
 const ArgumentError = require("../error/argument-error");
-const {NO_TITLE, NO_BODY, INVALID_TOKEN, EXPIRED_TOKEN} = require("../error/argument-error-code");
+const {NO_TITLE, NO_BODY, INVALID_TOKEN, EXPIRED_TOKEN} = require("../error/code/argument-error-code");
 const NotFoundResource = require("../error/not-found-resource-error");
-const {NOT_FOUND_ARTICLE} = require("../error/not-found-resource-error-code");
+const {NOT_FOUND_ARTICLE} = require("../error/code/not-found-resource-error-code");
 const ArticleDto = require("../dto/article");
 const AuthorizedError = require("../error/authorized-error");
-const {NOT_MATCHED_USER} = require('../error/authorized-error-code.js');
+const {NOT_MATCHED_USER} = require('../error/code/authorized-error-code.js');
 
 const jwtValid = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUGsiOjIsImlhdCI6MTYzNTEwNTU4MSwiZXhwIjozMzE5MjcwNTU4MSwic3ViIjoidXNlckluZm8ifQ.qvrojqGcxdy21BvR-JyJtpSUcJKlSNVPcHpQ9BXWt6I';
 const jwtExpired = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUGsiOjIsImlhdCI6MTYzNTEwNTI3NiwiZXhwIjoxNjM1MTA1Mjc2LCJzdWIiOiJ1c2VySW5mbyJ9.Pw3HJW05kpnl-Zy_rl900hM9GJ8sCUuQkyyBg2crPNg';

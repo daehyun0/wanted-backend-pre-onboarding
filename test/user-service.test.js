@@ -1,9 +1,9 @@
 const userService = require('../service/user-service');
 const AuthenticationError = require("../error/authentication-error");
-const {NOT_FOUND_ID, WRONG_PASSWORD} = require("../error/authentication-error-code");
+const {NOT_FOUND_ID, WRONG_PASSWORD} = require("../error/code/authentication-error-code");
 const mock = require('../utils/mock-db');
 const NotFoundResource = require("../error/not-found-resource-error");
-const {NOT_FOUND_USER} = require("../error/not-found-resource-error-code");
+const {NOT_FOUND_USER} = require("../error/code/not-found-resource-error-code");
 
 test('authenticate_id가 맞지 않으면 error', async () => {
     await expect(async () => {
