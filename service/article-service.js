@@ -14,6 +14,7 @@ let article = require('../model/article').then(articlePromise => {
 
 const articleService = {
     write: async function (jwtToken, title, body) {
+        await article;
         let decoded = null;
         try {
             decoded = await userTokenUtils.verifyAccessToken(jwtToken);
@@ -48,6 +49,7 @@ const articleService = {
     },
 
     read: async function (articlePk) {
+        await article;
         const articleFromRepo = await article.findOne({
             where: {
                 pk: articlePk
@@ -62,6 +64,7 @@ const articleService = {
     },
 
     update: async function (jwtToken, articlePk, title, body) {
+        await article;
         let decoded = null;
         try {
             decoded = await userTokenUtils.verifyAccessToken(jwtToken)
@@ -104,6 +107,7 @@ const articleService = {
     },
 
     delete: async function (jwtToken, articlePk) {
+        await article;
         let decoded = null;
         try {
             decoded = await userTokenUtils.verifyAccessToken(jwtToken);
@@ -133,6 +137,7 @@ const articleService = {
     },
 
     readList: async function (pageNum, countPerPage) {
+        await article;
         const articleList = await article.findAll({
             offset: (pageNum - 1) * countPerPage,
             limit: countPerPage,
