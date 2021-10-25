@@ -4,9 +4,11 @@ const {INVALID_TOKEN, EXPIRED_TOKEN} = require('../error/not-authenticated-error
 const ArgumentError = require("../error/argument-error");
 const userTokenUtils = require("../utils/user-token-utils");
 const {TokenExpiredError} = require("jsonwebtoken");
-const NotFoundResource = require("../error/not-found-error-resource");
-const {NOT_FOUND_ARTICLE} = require("../error/not-found-error-resource-code");
+const NotFoundResourceError = require("../error/not-found-resource-error");
+const {NOT_FOUND_ARTICLE} = require("../error/not-found-resource-error-code");
 const ArticleDto = require("../dto/article");
+const AuthorizedError = require("../error/authorized-error");
+const {NOT_MATCHED_USER} = require("../error/authorized-error-code");
 let article = require('../model/article').then(articlePromise => {
     article = articlePromise;
 });
@@ -54,10 +56,54 @@ const articleService = {
         });
 
         if (articles.length === 0) {
-            throw new NotFoundResource(NOT_FOUND_ARTICLE);
+            throw new NotFoundResourceError(NOT_FOUND_ARTICLE);
         }
 
         return ArticleDto.builder().of(articles[0]).build();
+    },
+
+    update: async function (jwtToken, articlePk, title, body) {
+        let decoded = null;
+        try {
+            decoded = await userTokenUtils.verifyAccessToken(jwtToken)
+        } catch (e) {
+            if (e instanceof TokenExpiredError) {
+                throw new NotAuthenticatedError(EXPIRED_TOKEN);
+            } else {
+                throw new NotAuthenticatedError(INVALID_TOKEN);
+            }
+        }
+
+        const articles = await article.findAll({
+            where: {
+                pk: articlePk
+            }
+        });
+
+        if (articles.length === 0) {
+            throw new NotFoundResourceError(NOT_FOUND_ARTICLE);
+        }
+
+        const articleFromRepo = articles[0];
+
+        if (decoded.userPk !== articleFromRepo.userPk) {
+            throw new AuthorizedError(NOT_MATCHED_USER);
+        }
+
+        if (title.trim().length === 0) {
+            throw new ArgumentError(NO_TITLE);
+        }
+
+        if (body.trim().length === 0) {
+            throw new ArgumentError(NO_BODY);
+        }
+
+        articleFromRepo.title = title;
+        articleFromRepo.body = body;
+        articleFromRepo.updatedAt = new Date();
+        await articleFromRepo.save();
+
+        return ArticleDto.builder().of(articleFromRepo).build();
     }
 }
 

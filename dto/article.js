@@ -12,6 +12,30 @@ class ArticleDto {
         return new ArticleDtoBuilder();
     }
 
+    get pk() {
+        return this.#_pk;
+    }
+
+    get userPk() {
+        return this.#_userPk;
+    }
+
+    get title() {
+        return this.#_title;
+    }
+
+    get body() {
+        return this.#_body;
+    }
+
+    get createdAt() {
+        return this.#_createdAt;
+    }
+
+    get updatedAt() {
+        return this.#_updatedAt;
+    }
+
     set pk(value) {
         this.#_pk = value;
     }
